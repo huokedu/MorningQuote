@@ -16,17 +16,17 @@
 </head>
 <body onload="init();">
 <h1 class="text-center">Good morning!</h1>
-<h2 class="text-center">Coffee & Quote</h2> 
-<div id="window">
-<canvas id="testCanvas" width="960" height="400"></canvas>
-<canvas id="textCanvas" width="960" height="400" style="visibility: hidden;"></canvas>
-</div>	
-<div id="hidden" style="position:absolute; top: -1000px; left: -1000px">
+<h2 class="text-center">Coffee & Quote</h2>
 <blockquote>
 	<p class="lead"><span id="quote"></span>
 	<footer id="author"></footer>
 	</p>
-</blockquote> 
+</blockquote>  
+<div id="window">
+<canvas id="testCanvas" width="960" height="400"></canvas>
+</div>	
+<div id="hidden" style="position:absolute; top: -1000px; left: -1000px">
+<h2 class="text-center">Coffee & Quote</h2>
 </div>	
 
 <script id="editable">
@@ -60,7 +60,7 @@
 
 		stage = new createjs.Stage("testCanvas");
 		text = new createjs.Text("Loading...", "20px Arial", "#000");
-		text.set({x: stage.canvas.width / 2 + 160, y: stage.canvas.height - 80});
+		text.set({x: stage.canvas.width / 2 + 80, y: stage.canvas.height - 80});
 		text.textAlign = "center";
 	}
 
@@ -117,6 +117,7 @@
 
 		oldMidPt.x = midPoint.x;
 		oldMidPt.y = midPoint.y;
+
 		updateCacheImage(true);
 	}
 
@@ -140,6 +141,7 @@
 		} else {
 			bitmap.cache(0, 0, image.width, image.height);
 		}
+
 		stage.update();
 	}
 </script>
