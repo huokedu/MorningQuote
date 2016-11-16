@@ -12,12 +12,15 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!-- EaselJS CDN-->
+	<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 </head>
-<body>
+<body onload="init();">
 <h1 class="text-center">Good morning!</h1>
 <h2 class="text-center">Read your today's quote!</h2>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
+  	<canvas id="windowCanvas" width="500" height="300"></canvas
 	  <blockquote>
 		<p class="lead">{{quote}}
 		<footer>{{author}}</footer>
