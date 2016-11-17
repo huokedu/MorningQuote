@@ -48,7 +48,7 @@
 
 	function init() {
 		//examples.showDistractor();
-		$.getJSON( "assets/quotes.json", function( quotes ) {
+		$.getJSON( "assets/quotesTumbrl.json", function( quotes ) {
   			console.log( "JSON Data: " + quotes[0].author );
   			random = Math.floor((Math.random() * quotes.length + 0));
   			$( "#quote" ).html(quotes[random].text);
