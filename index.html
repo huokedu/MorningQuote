@@ -31,6 +31,9 @@
 <div style="display: none">
 <canvas id="testCanvas2" width="960" height="400"></canvas>
 </div>
+<footer>
+<h4 class="text-center"><small>Nina Selezneva, late Fall, 2016. Dedicated to my beloved GME.</small></h4>
+</footer>
 <script id="editable">
 	var stage;
 	var isDrawing;
@@ -39,6 +42,7 @@
 	var oldMidPt;
 	var displayCanvas;
 	var image;
+	var image2;
 	var bitmap;
 	var maskFilter;
 	var cursor;
@@ -52,7 +56,8 @@
 		//examples.showDistractor();
 		image = new Image();
 		image.src = "assets/CherryTree.jpg";
-		var canvas = document.getElementById("testCanvas2");
+		image.onload = function() {
+			var canvas = document.getElementById("testCanvas2");
 		var ctx=canvas.getContext("2d");
     	ctx.drawImage(image, 10, 10);
     	ctx.font="20px Georgia";
@@ -62,43 +67,46 @@
   			random = Math.floor((Math.random() * quotes.length + 0));
   			$( "#quote" ).html(quotes[random].text);
   			if(quotes[random].text.length > 80){
-  				var splits = quotes[random].text.split(" ");
-  				var index = Math.floor(splits.length/2);
-  				var part1 = "";
-  				var part2 = "";
-  				for(i=0; i<index; i++){
-  					part1 += splits[i] + " "; 
-  				}
-  				for(i=index; i<splits.length; i++){
-  					part2 += splits[i] + " ";
-  				}
-  				//console.log(splits);
-  				//console.log(splits.length);
-  				$( "#author" ).html(quotes[random].author);
+	  			var splits = quotes[random].text.split(" ");
+	  			var index = Math.floor(splits.length/2);
+	  			var part1 = "";
+	  			var part2 = "";
+	  			for(i=0; i<index; i++){
+	  				part1 += splits[i] + " "; 
+	  			}
+	  			for(i=index; i<splits.length; i++){
+	  				part2 += splits[i] + " ";
+	  			}
+	  			//console.log(splits);
+	  			//console.log(splits.length);
+	  			$( "#author" ).html(quotes[random].author);
 				ctx.fillText(part1,200,260);
 				ctx.fillText(part2,200,280);
 				ctx.font="14px Georgia";
-    			ctx.fillStyle = "gray";
-    			ctx.fillText("—",210,300);
+	    		ctx.fillStyle = "gray";
+	    		ctx.fillText("—",210,300);
 				ctx.fillText(quotes[random].author,226,300);
   			} else {
 				$( "#author" ).html(quotes[random].author);
 				ctx.fillText(quotes[random].text,200,260);
 				ctx.font="14px Georgia";
-	    		ctx.fillStyle = "gray";
-	    		ctx.fillText("—",226,280);
+		    	ctx.fillStyle = "gray";
+		    	ctx.fillText("—",226,280);
 				ctx.fillText(quotes[random].author,240,280);
-		}
+			}
 			dataURL = canvas.toDataURL();
-			image = new Image();
-			image.onload = handleComplete;
-			image.src = dataURL;
-			bitmap = new createjs.Bitmap(image);
-					stage = new createjs.Stage("testCanvas");
+			image2 = new Image();
+			image2.onload = handleComplete;
+			image2.src = dataURL;
+			//bitmap = new createjs.Bitmap(image2);
+			stage = new createjs.Stage("testCanvas");
 			text = new createjs.Text("Loading...", "24px Georgia", "gray");
 			text.set({x: stage.canvas.width / 2 + 80, y: stage.canvas.height - 80});
 			text.textAlign = "center";
  		});
+
+		}
+		
 	}
 
 	function handleComplete() {
@@ -110,16 +118,16 @@
 		stage.addEventListener("stagemouseup", handleMouseUp);
 		stage.addEventListener("stagemousemove", handleMouseMove);
 		drawingCanvas = new createjs.Shape();
-		bitmap = new createjs.Bitmap(image);
+		bitmap = new createjs.Bitmap(image2);
 
-		blur = new createjs.Bitmap(image);
+		blur = new createjs.Bitmap(image2);
 		blur.filters = [new createjs.BlurFilter(24, 24, 2), new createjs.ColorMatrixFilter(new createjs.ColorMatrix(60))];
 		blur.cache(0, 0, 960, 400);
 
 		stage.addChild(blur, bitmap);
 		updateCacheImage(false);
 
-		cursor = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawCircle(0, 0, 25));
+		cursor = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawCircle(0, 0, 50));
 		cursor.cursor = "pointer";
 
 		stage.addChild(cursor);
