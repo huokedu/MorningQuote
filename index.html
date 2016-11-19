@@ -16,19 +16,21 @@
 </head>
 <body onload="init();">
 <h1 class="text-center">Good morning!</h1>
-<h2 class="text-center">Coffee & Quote</h2>
-<blockquote>
+<h2 class="text-center">Cherry Tree Quote</h2>
+<h4 class="text-center"><small>Click and Drag to Reveal the Quote.</small></h4>
+<!-- Optional  
+<blockquote>1
 	<p class="lead"><span id="quote"></span>
 	<footer id="author"></footer>
 	</p>
 </blockquote>  
-<div id="window">
+-->
+<div id="window" style="text-align: center">
 <canvas id="testCanvas" width="960" height="400"></canvas>
 </div>	
-<div id="hidden" style="position:absolute; top: -1000px; left: -1000px">
-<h2 class="text-center">Coffee & Quote</h2>
-</div>	
-
+<div style="display: none">
+<canvas id="testCanvas2" width="960" height="400"></canvas>
+</div>
 <script id="editable">
 	var stage;
 	var isDrawing;
@@ -43,25 +45,60 @@
 	var text;
 	var blur;
 	var random;
-	var content;
-	var quotes;
+	var textQuote;
+	var dataURL;
 
 	function init() {
 		//examples.showDistractor();
+		image = new Image();
+		image.src = "assets/CherryTree.jpg";
+		var canvas = document.getElementById("testCanvas2");
+		var ctx=canvas.getContext("2d");
+    	ctx.drawImage(image, 10, 10);
+    	ctx.font="20px Georgia";
+    	ctx.fillStyle = "#354040";
+
 		$.getJSON( "assets/quotesTumbrl.json", function( quotes ) {
-  			console.log( "JSON Data: " + quotes[0].author );
   			random = Math.floor((Math.random() * quotes.length + 0));
   			$( "#quote" ).html(quotes[random].text);
-			$( "#author" ).html(quotes[random].author);
+  			if(quotes[random].text.length > 80){
+  				var splits = quotes[random].text.split(" ");
+  				var index = Math.floor(splits.length/2);
+  				var part1 = "";
+  				var part2 = "";
+  				for(i=0; i<index; i++){
+  					part1 += splits[i] + " "; 
+  				}
+  				for(i=index; i<splits.length; i++){
+  					part2 += splits[i] + " ";
+  				}
+  				//console.log(splits);
+  				//console.log(splits.length);
+  				$( "#author" ).html(quotes[random].author);
+				ctx.fillText(part1,200,260);
+				ctx.fillText(part2,200,280);
+				ctx.font="14px Georgia";
+    			ctx.fillStyle = "gray";
+    			ctx.fillText("—",210,300);
+				ctx.fillText(quotes[random].author,226,300);
+  			} else {
+				$( "#author" ).html(quotes[random].author);
+				ctx.fillText(quotes[random].text,200,260);
+				ctx.font="14px Georgia";
+	    		ctx.fillStyle = "gray";
+	    		ctx.fillText("—",226,280);
+				ctx.fillText(quotes[random].author,240,280);
+		}
+			dataURL = canvas.toDataURL();
+			image = new Image();
+			image.onload = handleComplete;
+			image.src = dataURL;
+			bitmap = new createjs.Bitmap(image);
+					stage = new createjs.Stage("testCanvas");
+			text = new createjs.Text("Loading...", "24px Georgia", "gray");
+			text.set({x: stage.canvas.width / 2 + 80, y: stage.canvas.height - 80});
+			text.textAlign = "center";
  		});
-		image = new Image();
-		image.onload = handleComplete;
-		image.src = "assets/CherryTree.jpg";
-
-		stage = new createjs.Stage("testCanvas");
-		text = new createjs.Text("Loading...", "20px Arial", "#000");
-		text.set({x: stage.canvas.width / 2 + 80, y: stage.canvas.height - 80});
-		text.textAlign = "center";
 	}
 
 	function handleComplete() {
@@ -79,9 +116,7 @@
 		blur.filters = [new createjs.BlurFilter(24, 24, 2), new createjs.ColorMatrixFilter(new createjs.ColorMatrix(60))];
 		blur.cache(0, 0, 960, 400);
 
-		text.text = "Click and Drag to Reveal the Image.";
-
-		stage.addChild(blur, text, bitmap);
+		stage.addChild(blur, bitmap);
 		updateCacheImage(false);
 
 		cursor = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawCircle(0, 0, 25));
