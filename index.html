@@ -32,7 +32,7 @@
 <canvas id="testCanvas2" width="960" height="400"></canvas>
 </div>
 <footer>
-<h4 class="text-center"><small>Nina Selezneva, late Fall, 2016. Dedicated to my beloved GME.</small></h4>
+<h4 class="text-center"><small>Nina Selezneva, November, 2016. Dedicated to my beloved GME.</small></h4>
 </footer>
 <script id="editable">
 	var stage;
@@ -63,7 +63,7 @@
     	ctx.font="20px Georgia";
     	ctx.fillStyle = "#354040";
 
-		$.getJSON( "assets/quotesTumbrl.json", function( quotes ) {
+		$.getJSON( "assets/quotesBrainy.json", function( quotes ) {
   			random = Math.floor((Math.random() * quotes.length + 0));
   			$( "#quote" ).html(quotes[random].text);
   			if(quotes[random].text.length > 80){
